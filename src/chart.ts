@@ -7,6 +7,7 @@ import {
     Chart,
     ChartDataset,
     ChartConfiguration,
+    Legend
 } from 'chart.js'
 
 import {
@@ -23,7 +24,7 @@ export function formatTime(unixtime: number) {
     return timeFormat.format(unixtime * 1000)
 }
 
-Chart.register(BarElement, CategoryScale, LinearScale, BarController, Tooltip);
+Chart.register(BarElement, CategoryScale, LinearScale, BarController, Tooltip, Legend);
 
 export interface IPollenData {
     from: number,
@@ -93,7 +94,7 @@ export function createChart(chartContext: CanvasRenderingContext2D, measurements
                     stacked: true
                 }
             },
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
         }
     }
     console.log(chartConfig)
