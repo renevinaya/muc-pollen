@@ -1,0 +1,17 @@
+@charset "utf-8";
+$red: #e74c3c !default;
+$green: #40d47e !default;
+
+@use 'bulma/sass/utilities' with (
+    $family-sans-serif: '"Helvetica", "Arial", sans-serif',
+    $primary: $red,
+    $link: $green,
+    $widescreen-enabled: false,
+    $fullhd-enabled: false);
+@forward "bulma/sass/base";
+@forward 'bulma/sass/elements/box';
+@forward "bulma/sass/elements/title";
+@forward "bulma/sass/grid/columns";
+@forward "bulma/sass/layout/hero";
+@forward "bulma/sass/layout/section";
+@forward "bulma/sass/themes";
