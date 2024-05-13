@@ -9,6 +9,10 @@ import {
     ChartConfiguration,
 } from 'chart.js'
 
+import {
+    interpolateHslLong
+} from 'd3'
+
 const timeFormat = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Europe/Berlin',
     hour: 'numeric',
@@ -49,13 +53,13 @@ function sumValues(measurement: IPollenMeasurement): number {
     })
 }
 
-const COLOR_WHEEL = ['#E74C3C', '#357DED', '#40D47E']
+const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
-function toChartData(measurement: IPollenMeasurement, index: number): ChartDataset<'bar', number[]> {
+function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[]): ChartDataset<'bar', number[]> {
     return {
         label: measurement.polle,
         data: measurement.data.map(getValue),
-        backgroundColor: COLOR_WHEEL[index % COLOR_WHEEL.length]
+        backgroundColor: COLOR_SCALE(index / (array.length - 1))
     }
 }
 
