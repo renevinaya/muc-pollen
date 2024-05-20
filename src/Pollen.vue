@@ -36,6 +36,7 @@ const param = {
 }
 const url = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(param).toString()
 const loadPollen = async () => {
+    status.value = 'LOADING'
     try {
         const response = (await (await fetch(url)).json()) as IPollenResponse;
         measurements.value = filterMeasurements(response.measurements);
