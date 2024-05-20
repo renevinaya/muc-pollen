@@ -8,13 +8,18 @@
         Currently no pollen in Munich!
     </div>
     <div v-else-if="status == 'LOADING'" class="skeleton-block" />
+    <div v-else-if="status == 'ERROR'" class="box">
+        An error occured!
+        <code v-text="errorMsg" />
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { onUpdated, onMounted, ref, Ref } from 'vue'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
 
-const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN'> = ref('LOADING')
+const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR'> = ref('LOADING')
+const errorMsg = ref('')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = ref<HTMLCanvasElement>()
 
@@ -28,9 +33,13 @@ const param = {
 }
 const url = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(param).toString()
 onMounted(async () => {
-    const response = (await (await fetch(url)).json()) as IPollenResponse
-    measurements.value = filterMeasurements(response.measurements)
-    status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN'
+    try {
+        const response = (await (await fetch(url)).json()) as IPollenResponse
+        measurements.value = filterMeasurements(response.measurements)
+        status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN'
+    } catch (error) {
+        alert(JSON.stringify(error))
+    }
 })
 
 onUpdated(() => {
