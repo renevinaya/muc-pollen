@@ -9,7 +9,7 @@
     </div>
     <div v-else-if="status == 'LOADING'" class="skeleton-block" />
     <div v-else-if="status == 'ERROR'" class="box">
-        An error occured!
+        <p>An error occured!</p>
         <code v-text="errorMsg" />
     </div>
 </template>
