@@ -11,6 +11,9 @@
     <div v-else-if="status == 'ERROR'" class="box">
         <p>An error occured!</p>
         <code v-text="errorMsg" />
+        <p class="has-text-right">
+            <a class="button" @click="loadPollen">Try again</a>
+        </p>
     </div>
 </template>
 
@@ -32,16 +35,17 @@ const param = {
     locations: 'DEMUNC'
 }
 const url = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(param).toString()
-onMounted(async () => {
+const loadPollen = async () => {
     try {
-        const response = (await (await fetch(url)).json()) as IPollenResponse
-        measurements.value = filterMeasurements(response.measurements)
-        status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN'
+        const response = (await (await fetch(url)).json()) as IPollenResponse;
+        measurements.value = filterMeasurements(response.measurements);
+        status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN';
     } catch (error) {
-        errorMsg.value = JSON.stringify(error)
-        status.value = 'ERROR'
+        errorMsg.value = JSON.stringify(error);
+        status.value = 'ERROR';
     }
-})
+};
+onMounted(loadPollen)
 
 onUpdated(() => {
     const chartContext = (document.getElementById('chartCanvas') as HTMLCanvasElement)?.getContext('2d')
