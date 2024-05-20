@@ -14,7 +14,7 @@ import {
     interpolateHslLong
 } from 'd3'
 
-const timeFormat = new Intl.DateTimeFormat('en-GB', {
+const timeFormat = new Intl.DateTimeFormat(navigator.language, {
     timeZone: 'Europe/Berlin',
     hour: 'numeric',
     minute: '2-digit'
@@ -97,6 +97,5 @@ export function createChart(chartContext: CanvasRenderingContext2D, measurements
             maintainAspectRatio: false,
         }
     }
-    console.log(chartConfig)
     new Chart(chartContext, chartConfig)
 }
