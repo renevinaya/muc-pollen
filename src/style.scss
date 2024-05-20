@@ -9,6 +9,7 @@ $green: #40d47e !default;
     $widescreen-enabled: false,
     $fullhd-enabled: false);
 @forward "bulma/sass/base";
+@forward 'bulma/sass/base/skeleton';
 @forward 'bulma/sass/elements/box';
 @forward 'bulma/sass/elements/button';
 @forward "bulma/sass/elements/title";

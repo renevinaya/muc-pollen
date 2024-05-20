@@ -1,19 +1,20 @@
 <template>
-    <div v-if="show" class="box">
+    <div v-if="status == 'POLLEN'" class="box">
         <div style="height: 500px">
             <canvas id="chartCanvas" ref="chartCanvas" />
         </div>
     </div>
-    <div v-else class="box">
+    <div v-else-if="status == 'NO_POLLEN'" class="box">
         Currently no pollen in Munich!
     </div>
+    <div v-else-if="status == 'LOADING'" class="skeleton-block" />
 </template>
 
 <script lang="ts" setup>
-import { onUpdated, onMounted, ref } from 'vue'
+import { onUpdated, onMounted, ref, Ref } from 'vue'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
 
-const show = ref(false)
+const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN'> = ref('LOADING')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = ref<HTMLCanvasElement>()
 
@@ -29,7 +30,7 @@ const url = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearc
 onMounted(async () => {
     const response = (await (await fetch(url)).json()) as IPollenResponse
     measurements.value = filterMeasurements(response.measurements)
-    show.value = measurements.value.length > 0
+    status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN'
 })
 
 onUpdated(() => {
