@@ -38,7 +38,8 @@ onMounted(async () => {
         measurements.value = filterMeasurements(response.measurements)
         status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN'
     } catch (error) {
-        alert(JSON.stringify(error))
+        errorMsg.value = JSON.stringify(error)
+        status.value = 'ERROR'
     }
 })
 
