@@ -26,12 +26,18 @@ const errorMsg = ref('')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = ref<HTMLCanvasElement>()
 
-const now = (new Date().getTime() / 1000)
+const now = (new Date().getTime() / 1000) // seconds
+
+const roundTime = (exact: number) => {
+    // Rounds time down to last 15 minutes, so Cloudfront can cache the result
+    const quarter_hour = 15 * 60
+    return (Math.floor(exact / quarter_hour) * quarter_hour).toFixed()
+}
 
 const param = {
     // Pollen are measured every 3h. Plus 2h delay, we request 29h of the past to get a whole day
-    from: (now - (29 * 60 * 60)).toFixed(),
-    to: now.toFixed(),
+    from: roundTime(now - (29 * 60 * 60)),
+    to: roundTime(now),
     locations: 'DEMUNC'
 }
 const url = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(param).toString()
