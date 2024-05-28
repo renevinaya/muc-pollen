@@ -14,6 +14,8 @@ import {
     interpolateHslLong
 } from 'd3'
 
+import { translations } from './translations'
+
 const timeFormat = new Intl.DateTimeFormat(navigator.language, {
     timeZone: 'Europe/Berlin',
     hour: 'numeric',
@@ -56,9 +58,15 @@ function sumValues(measurement: IPollenMeasurement): number {
 
 const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
+const lang = navigator.language.substring(0,2)
+
+function getTranslation(polle: string): string {
+    return translations[polle][lang] ? translations[polle][lang] : polle
+}
+
 function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[]): ChartDataset<'bar', number[]> {
     return {
-        label: measurement.polle,
+        label: getTranslation(measurement.polle),
         data: measurement.data.map(getValue),
         backgroundColor: COLOR_SCALE(index / (array.length - 1))
     }
