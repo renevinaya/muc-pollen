@@ -11,8 +11,16 @@ export const translations: { [id: string]: ITranslation } = {
         'en': 'Maple',
         'ja': 'カエデ'
     },
-    'Aesculus': {},
-    'Alnus': {},
+    'Aesculus': {
+        'de': 'Kastanie',
+        'en': 'Chestnut',
+        'ja': 'トチノキ'
+    },
+    'Alnus': {
+        'de': 'Erle',
+        'en': 'Alder',
+        'ja': 'ハンノキ属'
+    },
     'Ambrosia': {},
     'Artemisia': {},
     'Asteraceae': {},
@@ -33,7 +41,11 @@ export const translations: { [id: string]: ITranslation } = {
         'en': 'Beech',
         'ja': 'ブナ属'
     },
-    'Fraxinus': {},
+    'Fraxinus': {
+        'de': 'Esche',
+        'en': 'Ash',
+        'ja': 'トネリコ属'
+    },
     'Fungus': {},
     'Galium': {},
     'Humulus': {},
@@ -42,18 +54,38 @@ export const translations: { [id: string]: ITranslation } = {
     'Larix': {},
     'Picea': {},
     'Pinaceae': {},
-    'Pinus': {},
-    'Plantago': {},
+    'Pinus': {
+        'de': 'Kiefern',
+        'en': 'Pine',
+        'ja': 'マツ属'
+    },
+    'Plantago': {
+        'de': 'Wegerich',
+        'en': 'Plantain',
+        'ja': 'オオバコ属'
+    },
     'Platanus': {},
-    'Poaceae': {},
+    'Poaceae': {
+        'de': 'Gräser',
+        'en': 'Grass',
+        'ja': 'イネ科'
+    },
     'Populus': {},
     'Quercus': {},
     'Quercus ilex': {},
     'Rumex': {},
-    'Salix': {},
+    'Salix': {
+        'de': 'Weide',
+        'en': 'Willow',
+        'ja': 'ヤナギ'
+    },
     'Sambucus': {},
     'Secale': {},
-    'Taxus': {},
+    'Taxus': {
+        'de': 'Eibe',
+        'en': 'Yew',
+        'ja': 'イチイ属'
+    },
     'Tilia': {},
     'Ulmus': {},
     'Urtica': {}
