@@ -58,7 +58,7 @@ function sumValues(measurement: IPollenMeasurement): number {
 
 const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
-const lang = navigator.language.substring(0,2)
+const lang = navigator.language.substring(0, 2)
 
 function getTranslation(polle: string): string {
     return translations[polle][lang] ? translations[polle][lang] : polle

@@ -47,7 +47,7 @@ const loadPollen = async () => {
     status.value = 'LOADING'
     try {
         const response = (await (await fetch(url)).json()) as IPollenResponse;
-        if(response.measurements.length == 0) {
+        if (response.measurements.length == 0) {
             status.value = 'NO_MEASUREMENT'
             return
         }
