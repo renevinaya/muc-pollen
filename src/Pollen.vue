@@ -10,7 +10,6 @@
     <div v-else-if="status == 'LOADING'" class="skeleton-block" />
     <div v-else-if="status == 'ERROR'" class="box">
         <p>An error occured!</p>
-        <code v-text="errorMsg" />
         <p class="has-text-right">
             <a class="button" @click="loadPollen">Try again</a>
         </p>
