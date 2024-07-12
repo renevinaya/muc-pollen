@@ -15,13 +15,16 @@
             <a class="button" @click="loadPollen">Try again</a>
         </p>
     </div>
+    <div v-else-if="status == 'NO_MEASUREMENT'" class="box">
+        <p>Pollen measurement currently not available</p>
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { onUpdated, onMounted, ref, Ref } from 'vue'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
 
-const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR'> = ref('LOADING')
+const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT'> = ref('LOADING')
 const errorMsg = ref('')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = ref<HTMLCanvasElement>()
@@ -45,6 +48,10 @@ const loadPollen = async () => {
     status.value = 'LOADING'
     try {
         const response = (await (await fetch(url)).json()) as IPollenResponse;
+        if(response.measurements.length == 0) {
+            status.value = 'NO_MEASUREMENT'
+            return
+        }
         measurements.value = filterMeasurements(response.measurements);
         status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN';
     } catch (error) {
