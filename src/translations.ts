@@ -21,21 +21,59 @@ export const translations: { [id: string]: ITranslation } = {
         'en': 'Alder',
         'ja': 'ハンノキ属'
     },
-    'Ambrosia': {},
-    'Artemisia': {},
-    'Asteraceae': {},
+    'Ambrosia': {
+        'de': 'Traubenkräuter',
+        'en': 'Ragweed'
+    },
+    'Artemisia': {
+        'de': 'Eberraute',
+        'en': 'Southernwood',
+        'ja': 'オキナヨモギ'
+    },
+    'Asteraceae': {
+        'de': 'Korbblütler',
+        'en': 'Daisy',
+        'ja': 'キク科'
+    },
     'Betula': {
         'de': 'Birke',
         'en': 'Birch',
         'ja': 'カバノキ属'
     },
-    'Carpinus': {},
-    'Castanea': {},
-    'Chenopodium': {},
-    'Corylus': {},
-    'Cruciferae': {},
-    'Cyperaceae': {},
-    'Erica': {},
+    'Carpinus': {
+        'de': 'Hainbuchen',
+        'en': 'Hornbeams',
+        'ja': 'シデ'
+    },
+    'Castanea': {
+        'de': 'Kastanien',
+        'en': 'Chestnut',
+        'ja': 'クリ属'
+    },
+    'Chenopodium': {
+        'de': 'Gänsefüße',
+        'en': 'Goosefoot'
+    },
+    'Corylus': {
+        'de': 'Hasel',
+        'en': 'Hazel',
+        'ja': 'ハシバミ属'
+    },
+    'Cruciferae': {
+        'de': 'Kreuzblütler',
+        'en': 'Mustards',
+        'ja': 'アブラナ科'
+    },
+    'Cyperaceae': {
+        'de': 'Sauergras',
+        'en': 'Sedges',
+        'ja': 'カヤツリグサ科'
+    },
+    'Erica': {
+        'de': 'Heidekräuter',
+        'en': 'Heath',
+        'ja': 'エリカ属'
+    },
     'Fagus': {
         'de': 'Buche',
         'en': 'Beech',
