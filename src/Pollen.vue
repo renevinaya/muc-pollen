@@ -5,7 +5,7 @@
         </div>
     </div>
     <div v-else-if="status == 'NO_POLLEN'" class="box">
-        Currently no pollen in Munich!
+        <p>Currently no pollen in Munich!</p>
     </div>
     <div v-else-if="status == 'LOADING'" class="skeleton-block" />
     <div v-else-if="status == 'ERROR'" class="box">
