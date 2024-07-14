@@ -24,7 +24,6 @@ import { onUpdated, onMounted, ref, Ref } from 'vue'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
 
 const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT'> = ref('LOADING')
-const errorMsg = ref('')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = ref<HTMLCanvasElement>()
 
@@ -54,7 +53,7 @@ const loadPollen = async () => {
         measurements.value = filterMeasurements(response.measurements);
         status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN';
     } catch (error) {
-        errorMsg.value = JSON.stringify(error);
+        console.log(error);
         status.value = 'ERROR';
     }
 };
