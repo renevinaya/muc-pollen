@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Pollen from './Pollen.vue'
+import { version } from '../package.json'
 </script>
 
 <template>
@@ -15,6 +16,7 @@ import Pollen from './Pollen.vue'
   </section>
   <footer class="hero is-link is-small">
     <div class="hero-body has-text-centered has-text-white">
+      <p>Version V{{ version }}</p>
       <p>Made by <a href="https://github.com/renevinaya" class="has-text-white">René Mueller</a> with data from <a
           href="https://epin.lgl.bayern.de/" class="has-text-white">Landesamtes für Gesundheit und
           Lebensmittelsicherheit
