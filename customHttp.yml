@@ -1,0 +1,5 @@
+customHeaders:
+  - pattern: '**'
+    headers:
+    - key: 'content-security-policy'
+      value: "default-src 'self' https://d1ppjuhp1nvtc2.cloudfront.net/"
