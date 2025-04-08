@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onUpdated, onMounted, ref, Ref } from 'vue'
+import { onUpdated, onMounted, ref, Ref, useTemplateRef } from 'vue'
 import { Chart } from 'chart.js'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
 import { type language } from './translations.ts'
@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT'> = ref('LOADING')
 const measurements = ref<Array<IPollenMeasurement>>([])
-const chartCanvas = ref<HTMLCanvasElement>()
+const chartCanvas = useTemplateRef('chartCanvas')
 
 const now = (new Date().getTime() / 1000) // seconds
 let chart: Chart | null = null
@@ -47,7 +47,7 @@ onMounted(loadPollen)
 
 onUpdated(() => {
     console.log('update chart')
-    const chartContext = (document.getElementById('chartCanvas') as HTMLCanvasElement)?.getContext('2d')
+    const chartContext = chartCanvas.value?.getContext('2d')
     if (chartContext) {
         if(chart) {
             chart.destroy()
