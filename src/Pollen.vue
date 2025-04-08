@@ -1,24 +1,3 @@
-<template>
-    <div v-if="status == 'POLLEN'" class="box">
-        <div style="height: 500px">
-            <canvas id="chartCanvas" ref="chartCanvas" />
-        </div>
-    </div>
-    <div v-else-if="status == 'NO_POLLEN'" class="box">
-        <p>Currently no pollen in Munich!</p>
-    </div>
-    <div v-else-if="status == 'LOADING'" class="skeleton-block" />
-    <div v-else-if="status == 'ERROR'" class="box">
-        <p>An error occured!</p>
-        <p class="has-text-right">
-            <a class="button" @click="loadPollen">Try again</a>
-        </p>
-    </div>
-    <div v-else-if="status == 'NO_MEASUREMENT'" class="box">
-        <p>Pollen measurement currently not available</p>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { onUpdated, onMounted, ref, Ref } from 'vue'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
@@ -66,3 +45,24 @@ onUpdated(() => {
     }
 })
 </script>
+
+<template>
+    <div v-if="status == 'POLLEN'" class="box">
+        <div style="height: 500px">
+            <canvas id="chartCanvas" ref="chartCanvas" />
+        </div>
+    </div>
+    <div v-else-if="status == 'NO_POLLEN'" class="box">
+        <p>Currently no pollen in Munich!</p>
+    </div>
+    <div v-else-if="status == 'LOADING'" class="skeleton-block" />
+    <div v-else-if="status == 'ERROR'" class="box">
+        <p>An error occured!</p>
+        <p class="has-text-right">
+            <a class="button" @click="loadPollen">Try again</a>
+        </p>
+    </div>
+    <div v-else-if="status == 'NO_MEASUREMENT'" class="box">
+        <p>Pollen measurement currently not available</p>
+    </div>
+</template>
