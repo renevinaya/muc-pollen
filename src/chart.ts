@@ -14,7 +14,7 @@ import {
     interpolateHslLong
 } from 'd3'
 
-import { translations } from './translations'
+import { language, translations } from './translations'
 
 const timeFormat = new Intl.DateTimeFormat(navigator.language, {
     timeZone: 'Europe/Berlin',
@@ -58,15 +58,13 @@ function sumValues(measurement: IPollenMeasurement): number {
 
 const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
-const lang = navigator.language.substring(0, 2)
-
-function getTranslation(polle: string): string {
-    return translations[polle][lang] ? translations[polle][lang] : polle
+function getTranslation(polle: string, language: language): string {
+    return translations[polle][language] ? translations[polle][language] : polle
 }
 
-function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[]): ChartDataset<'bar', number[]> {
+function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[], language: language): ChartDataset<'bar', number[]> {
     return {
-        label: getTranslation(measurement.polle),
+        label: getTranslation(measurement.polle, language),
         data: measurement.data.map(getValue),
         backgroundColor: COLOR_SCALE(index / (array.length - 1))
     }
@@ -84,8 +82,8 @@ export function filterMeasurements(measurements: IPollenMeasurement[]): IPollenM
     })
 }
 
-export function createChart(chartContext: CanvasRenderingContext2D, measurements: IPollenMeasurement[]) {
-    const chartData = measurements.map(toChartData)
+export function createChart(chartContext: CanvasRenderingContext2D, measurements: IPollenMeasurement[], language: language) {
+    const chartData = measurements.map((m, i, a) => toChartData(m, i, a, language))
     const chartConfig: ChartConfiguration<'bar', number[], string> = {
         type: 'bar',
         data: {
@@ -105,5 +103,5 @@ export function createChart(chartContext: CanvasRenderingContext2D, measurements
             maintainAspectRatio: false,
         }
     }
-    new Chart(chartContext, chartConfig)
+    return new Chart(chartContext, chartConfig)
 }

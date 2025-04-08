@@ -1,4 +1,12 @@
-type ITranslation = { [id: string]: string }
+const languages = ['de', 'en', 'ja'] as const;
+export type language = typeof languages[number];
+type ITranslation = Record<language, string>;
+
+export const displayNames: ITranslation = {
+    'de': 'Deutsch',
+    'en': 'English',
+    'ja': '日本語'
+} as const;
 
 export const translations: { [id: string]: ITranslation } = {
     'Abies': {
@@ -23,7 +31,8 @@ export const translations: { [id: string]: ITranslation } = {
     },
     'Ambrosia': {
         'de': 'Traubenkräuter',
-        'en': 'Ragweed'
+        'en': 'Ragweed',
+        'ja': 'ブタクサ'
     },
     'Artemisia': {
         'de': 'Eberraute',
@@ -52,7 +61,8 @@ export const translations: { [id: string]: ITranslation } = {
     },
     'Chenopodium': {
         'de': 'Gänsefüße',
-        'en': 'Goosefoot'
+        'en': 'Goosefoot',
+        'ja': 'アカザ'
     },
     'Corylus': {
         'de': 'Hasel',
@@ -84,14 +94,46 @@ export const translations: { [id: string]: ITranslation } = {
         'en': 'Ash',
         'ja': 'トネリコ属'
     },
-    'Fungus': {},
-    'Galium': {},
-    'Humulus': {},
-    'Impatiens': {},
-    'Juglans': {},
-    'Larix': {},
-    'Picea': {},
-    'Pinaceae': {},
+    'Fungus': {
+        'de': 'Pilze',
+        'en': 'Fungi',
+        'ja': 'キノコ'
+    },
+    'Galium': {
+        'de': 'Labkräuter',
+        'en': 'Bedstraw',
+        'ja': 'キバナカワラマツバ'
+    },
+    'Humulus': {
+        'de': 'Hopfen',
+        'en': 'Hops',
+        'ja': 'ホップ属'
+    },
+    'Impatiens': {
+        'de': 'Springkraut',
+        'en': 'Balsam',
+        'ja': 'ツリフネソウ属'
+    },
+    'Juglans': {
+        'de': 'Walnuss',
+        'en': 'Walnut',
+        'ja': 'クルミ'
+    },
+    'Larix': {
+        'de': 'Lärchen',
+        'en': 'Larch',
+        'ja': 'カラマツ属'
+    },
+    'Picea': {
+        'de': 'Fichten',
+        'en': 'Spruce',
+        'ja': 'トウヒ属'
+    },
+    'Pinaceae': {
+        'de': 'Kieferngewächse',
+        'en': 'Pine family',
+        'ja': 'マツ科'
+    },
     'Pinus': {
         'de': 'Kiefern',
         'en': 'Pine',
@@ -102,29 +144,69 @@ export const translations: { [id: string]: ITranslation } = {
         'en': 'Plantain',
         'ja': 'オオバコ属'
     },
-    'Platanus': {},
+    'Platanus': {
+        'de': 'Platanen',
+        'en': 'Plane',
+        'ja': 'プラタナス'
+    },
     'Poaceae': {
         'de': 'Gräser',
         'en': 'Grass',
         'ja': 'イネ科'
     },
-    'Populus': {},
-    'Quercus': {},
-    'Quercus ilex': {},
-    'Rumex': {},
+    'Populus': {
+        'de': 'Pappeln',
+        'en': 'Poplar',
+        'ja': 'ポプラ'
+    },
+    'Quercus': {
+        'de': 'Eichen',
+        'en': 'Oak',
+        'ja': 'コナラ'
+    },
+    'Quercus ilex': {
+        'de': 'Steineiche',
+        'en': 'Holm oak',
+        'ja': 'セイヨウヒイラギガシ'
+    },
+    'Rumex': {
+        'de': 'Sauerampfer',
+        'en': 'Dock',
+        'ja': 'スイバ'
+    },
     'Salix': {
         'de': 'Weide',
         'en': 'Willow',
         'ja': 'ヤナギ'
     },
-    'Sambucus': {},
-    'Secale': {},
+    'Sambucus': {
+        'de': 'Holunder',
+        'en': 'Elder',
+        'ja': 'ニワトコ属'
+    },
+    'Secale': {
+        'de': 'Roggen',
+        'en': 'Rye',
+        'ja': 'ライ麦'
+    },
     'Taxus': {
         'de': 'Eibe',
         'en': 'Yew',
         'ja': 'イチイ属'
     },
-    'Tilia': {},
-    'Ulmus': {},
-    'Urtica': {}
+    'Tilia': {
+        'de': 'Linden',
+        'en': 'Lime',
+        'ja': 'シナノキ属'
+    },
+    'Ulmus': {
+        'de': 'Ulmen',
+        'en': 'Elm',
+        'ja': 'ハルニレ'
+    },
+    'Urtica': {
+        'de': 'Brennnessel',
+        'en': 'Nettle',
+        'ja': 'イラクサ属'
+    }
 }

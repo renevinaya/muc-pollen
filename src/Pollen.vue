@@ -1,12 +1,19 @@
 <script lang="ts" setup>
 import { onUpdated, onMounted, ref, Ref } from 'vue'
+import { Chart } from 'chart.js'
 import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
+import { type language } from './translations.ts'
+
+const props = defineProps<{
+    language: language,
+}>()
 
 const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT'> = ref('LOADING')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = ref<HTMLCanvasElement>()
 
 const now = (new Date().getTime() / 1000) // seconds
+let chart: Chart | null = null
 
 const roundTime = (exact: number) => {
     // Rounds time down to last 15 minutes, so Cloudfront can cache the result
@@ -39,9 +46,13 @@ const loadPollen = async () => {
 onMounted(loadPollen)
 
 onUpdated(() => {
+    console.log('update chart')
     const chartContext = (document.getElementById('chartCanvas') as HTMLCanvasElement)?.getContext('2d')
     if (chartContext) {
-        createChart(chartContext, measurements.value)
+        if(chart) {
+            chart.destroy()
+        }
+        chart = createChart(chartContext, measurements.value, props.language)
     }
 })
 </script>

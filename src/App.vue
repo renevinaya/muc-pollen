@@ -1,18 +1,31 @@
 <script setup lang="ts">
 import Pollen from './Pollen.vue'
 import { version } from '../package.json'
+import { displayNames, type language } from './translations';
+import { ref, Ref } from 'vue';
+
+const language: Ref<language> = ref('en')
 </script>
 
 <template>
   <header class="hero is-primary">
     <div class="hero-body">
-      <h1 class="title">
-        Pollen in Munich
-      </h1>
+      <div class="level">
+        <div class="level-left">
+          <h1 class="title">
+            Pollen in Munich
+          </h1>
+        </div>
+        <div class="level-right">
+          <div class="level-item" v-for="(name , key) in displayNames">
+            <button class="button" :class="[ language == key ? 'is-outlined' : 'is-primary']" v-text="name" @click="language = key" />
+          </div>
+        </div>
+      </div>
     </div>
   </header>
   <section class="section">
-    <Pollen />
+    <Pollen :language="language" />
   </section>
   <footer class="hero is-link is-small">
     <div class="hero-body has-text-centered has-text-white">
