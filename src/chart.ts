@@ -14,7 +14,8 @@ import {
     interpolateHslLong
 } from 'd3'
 
-import { language, translations } from './translations'
+import { type language, translations } from './translations'
+import { type IPollenMeasurement } from './pollen'
 
 const timeFormat = new Intl.DateTimeFormat(navigator.language, {
     timeZone: 'Europe/Berlin',
@@ -22,39 +23,11 @@ const timeFormat = new Intl.DateTimeFormat(navigator.language, {
     minute: '2-digit'
 })
 
-export function formatTime(unixtime: number) {
+function formatTime(unixtime: number) {
     return timeFormat.format(unixtime * 1000)
 }
 
 Chart.register(BarElement, CategoryScale, LinearScale, BarController, Tooltip, Legend);
-
-export interface IPollenData {
-    from: number,
-    to: number,
-    value: number
-}
-
-export interface IPollenMeasurement {
-    polle: string,
-    location: string,
-    data: IPollenData[]
-}
-
-export interface IPollenResponse {
-    from: number,
-    to: number,
-    measurements: IPollenMeasurement[]
-}
-
-function getValue(pollenData: IPollenData): number {
-    return pollenData.value
-}
-
-function sumValues(measurement: IPollenMeasurement): number {
-    return measurement.data.map(getValue).reduce((sum, cur) => {
-        return sum + cur
-    })
-}
 
 const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
@@ -65,7 +38,7 @@ function getTranslation(polle: string, language: language): string {
 function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[], language: language): ChartDataset<'bar', number[]> {
     return {
         label: getTranslation(measurement.polle, language),
-        data: measurement.data.map(getValue),
+        data: measurement.data.map(p => p.value),
         backgroundColor: COLOR_SCALE(index / (array.length - 1))
     }
 }
@@ -73,12 +46,6 @@ function toChartData(measurement: IPollenMeasurement, index: number, array: IPol
 function toLabels(measurement: IPollenMeasurement): string[] {
     return measurement.data.map<string>((data) => {
         return formatTime(data.from) + " - " + formatTime(data.to)
-    })
-}
-
-export function filterMeasurements(measurements: IPollenMeasurement[]): IPollenMeasurement[] {
-    return measurements.filter((measurement) => {
-        return measurement.polle !== 'Varia' && sumValues(measurement) > 0
     })
 }
 

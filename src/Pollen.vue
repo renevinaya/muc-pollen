@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { onUpdated, onMounted, ref, Ref, useTemplateRef } from 'vue'
 import { Chart } from 'chart.js'
-import { IPollenResponse, IPollenMeasurement, filterMeasurements, createChart } from './chart.ts'
+import { createChart } from './chart.ts'
 import { type language } from './translations.ts'
+import { loadPollen, type IPollenMeasurement } from './pollen.ts';
 
 const props = defineProps<{
     language: language,
@@ -12,41 +13,18 @@ const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = useTemplateRef('chartCanvas')
 
-const now = (new Date().getTime() / 1000) // seconds
 let chart: Chart | null = null
 
-const roundTime = (exact: number) => {
-    // Rounds time down to last 15 minutes, so Cloudfront can cache the result
-    const quarter_hour = 15 * 60
-    return (Math.floor(exact / quarter_hour) * quarter_hour).toFixed()
-}
-
-const param = {
-    // Pollen are measured every 3h. Plus 2h delay, we request 29h of the past to get a whole day
-    from: roundTime(now - (29 * 60 * 60)),
-    to: roundTime(now),
-    locations: 'DEMUNC'
-}
-const url = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(param).toString()
-const loadPollen = async () => {
+onMounted(async () => {
     status.value = 'LOADING'
-    try {
-        const response = (await (await fetch(url)).json()) as IPollenResponse;
-        if (response.measurements.length == 0) {
-            status.value = 'NO_MEASUREMENT'
-            return
-        }
-        measurements.value = filterMeasurements(response.measurements);
-        status.value = measurements.value.length > 0 ? 'POLLEN' : 'NO_POLLEN';
-    } catch (error) {
-        console.log(error);
-        status.value = 'ERROR';
+    const [data, statusV] = await loadPollen()
+    if (statusV == 'POLLEN') {
+        measurements.value = data
     }
-};
-onMounted(loadPollen)
+    status.value = statusV
+})
 
 onUpdated(() => {
-    console.log('update chart')
     const chartContext = chartCanvas.value?.getContext('2d')
     if (chartContext) {
         if(chart) {
