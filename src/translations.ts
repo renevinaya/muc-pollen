@@ -1,6 +1,8 @@
-const languages = ['de', 'en', 'ja'] as const;
+const languagesRaw = ['de', 'en', 'ja'] as const;
+const languages = [...languagesRaw, 'la'] as const
 export type language = typeof languages[number];
 type ITranslation = Record<language, string>;
+type ITranslationRaw = Record<typeof languagesRaw[number], string>;
 
 export function getBrowserLanguage(): language {
     for(const language of languages) {
@@ -15,10 +17,11 @@ export function getBrowserLanguage(): language {
 export const displayNames: ITranslation = {
     'de': 'Deutsch',
     'en': 'English',
-    'ja': '日本語'
+    'ja': '日本語',
+    'la': 'Latinum'
 } as const;
 
-export const translations: { [id: string]: ITranslation } = {
+export const translations: { [id: string]: ITranslationRaw } = {
     'Abies': {
         'de': 'Tanne',
         'en': 'Fir',
