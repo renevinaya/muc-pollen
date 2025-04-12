@@ -1,8 +1,8 @@
-import purgecss from '@fullhuman/postcss-purgecss'
+import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss'
 
 export default {
   plugins: [
-    purgecss({
+    purgeCSSPlugin({
       content: ['./**/*.vue', './index.html']
     })
   ]
