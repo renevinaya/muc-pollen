@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Pollen from './Pollen.vue'
 import { version } from '../package.json'
-import { displayNames, type language } from './translations';
+import { displayNames, getBrowserLanguage, type language } from './translations';
 import { ref, Ref } from 'vue';
 
-const language: Ref<language> = ref('en')
+const language: Ref<language> = ref(getBrowserLanguage());
 </script>
 
 <template>

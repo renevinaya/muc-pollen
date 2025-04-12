@@ -2,6 +2,16 @@ const languages = ['de', 'en', 'ja'] as const;
 export type language = typeof languages[number];
 type ITranslation = Record<language, string>;
 
+export function getBrowserLanguage(): language {
+    for(const language of languages) {
+        if (navigator.language.startsWith(language)) {
+            return language;
+        }
+    }
+    // Fallback to English if no match is found
+    return 'en';
+}
+
 export const displayNames: ITranslation = {
     'de': 'Deutsch',
     'en': 'English',
