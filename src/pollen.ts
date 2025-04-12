@@ -41,7 +41,7 @@ export async function loadPollen(): Promise<success | failure> {
             return [undefined, 'NO_MEASUREMENT']
         }
         const measurements = filterMeasurements(response.measurements);
-        if(measurements.length == 0) {
+        if (measurements.length == 0) {
             return [undefined, 'NO_POLLEN']
         }
         return [measurements, 'POLLEN']
