@@ -17,8 +17,11 @@ const language: Ref<language> = ref('en')
           </h1>
         </div>
         <div class="level-right">
-          <div class="level-item" v-for="(name , key) in displayNames">
-            <button class="button" :class="[ language == key ? 'is-outlined' : 'is-primary']" v-text="name" @click="language = key" />
+          <div class="level is-mobile">
+            <div class="level-item" v-for="(name, key) in displayNames">
+              <button class="button" :class="[language == key ? 'is-outlined' : 'is-primary']" v-text="name"
+                @click="language = key" />
+            </div>
           </div>
         </div>
       </div>
