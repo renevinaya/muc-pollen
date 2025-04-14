@@ -144,7 +144,7 @@ export const translations: { [id: string]: ITranslationRaw } = {
     },
     'Pinaceae': {
         'de': 'Kieferngewächse',
-        'en': 'Pine family',
+        'en': 'Pine',
         'ja': 'マツ科'
     },
     'Pinus': {
