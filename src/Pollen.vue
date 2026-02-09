@@ -15,13 +15,17 @@ const chartCanvas = useTemplateRef('chartCanvas')
 
 let chart: Chart | null = null
 
-onMounted(async () => {
+const retryLoad = async () => {
     status.value = 'LOADING'
     const [data, statusV] = await loadPollen()
     if (statusV == 'POLLEN') {
         measurements.value = data
     }
     status.value = statusV
+}
+
+onMounted(async () => {
+    await retryLoad()
 })
 
 watch([measurements, () => props.language], () => {
@@ -48,7 +52,7 @@ watch([measurements, () => props.language], () => {
     <div v-else-if="status == 'ERROR'" class="box">
         <p>An error occured!</p>
         <p class="has-text-right">
-            <a class="button" @click="loadPollen">Try again</a>
+            <a class="button" @click="retryLoad">Try again</a>
         </p>
     </div>
     <div v-else-if="status == 'NO_MEASUREMENT'" class="box">
