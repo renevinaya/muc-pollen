@@ -19,7 +19,7 @@ const language: Ref<language> = ref(getBrowserLanguage());
         <div class="level-right">
           <div class="level is-mobile">
             <div class="level-item" v-for="(name, key) in displayNames">
-              <button class="button" :class="[language == key ? 'is-outlined' : 'is-primary']" v-text="name"
+              <button class="button" :class="[language === key ? 'is-outlined' : 'is-primary']" v-text="name"
                 @click="language = key" />
             </div>
           </div>

@@ -32,14 +32,21 @@ Chart.register(BarElement, CategoryScale, LinearScale, BarController, Tooltip, L
 const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
 function getTranslation(polle: string, language: language): string {
-    return language == 'la' ? polle : translations[polle][language]
+    if (language === 'la') {
+        return polle;
+    }
+    // Fallback to the Latin/scientific name if no translation is found
+    const translation = translations[polle];
+    return translation ? translation[language] : polle;
 }
 
 function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[], language: language): ChartDataset<'bar', number[]> {
+    // Guard against division by zero when there's only one measurement
+    const colorValue = array.length === 1 ? 0 : index / (array.length - 1);
     return {
         label: getTranslation(measurement.polle, language),
         data: measurement.data.map(p => p.value),
-        backgroundColor: COLOR_SCALE(index / (array.length - 1))
+        backgroundColor: COLOR_SCALE(colorValue)
     }
 }
 
