@@ -22,21 +22,21 @@ const roundTime = (exact: number) => {
     return (Math.floor(exact / quarter_hour) * quarter_hour).toFixed()
 }
 
-const NOW = (new Date().getTime() / 1000) // seconds
-const PARAM = {
-    // Pollen are measured every 3h. Plus 2h delay, we request 29h of the past to get a whole day
-    from: roundTime(NOW - (29 * 60 * 60)),
-    to: roundTime(NOW),
-    locations: 'DEMUNC'
-}
-const URL = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(PARAM).toString()
-
 type success = [IPollenMeasurement[], 'POLLEN']
 type failure = [undefined, 'NO_MEASUREMENT' | 'NO_POLLEN' | 'ERROR']
 
 export async function loadPollen(): Promise<success | failure> {
     try {
-        const response = (await (await fetch(URL)).json()) as IPollenResponse;
+        const NOW = (new Date().getTime() / 1000) // seconds
+        const PARAM = {
+            // Pollen are measured every 3h. Plus 2h delay, we request 29h of the past to get a whole day
+            from: roundTime(NOW - (29 * 60 * 60)),
+            to: roundTime(NOW),
+            locations: 'DEMUNC'
+        }
+        const API_URL = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(PARAM).toString()
+        
+        const response = (await (await fetch(API_URL)).json()) as IPollenResponse;
         if (response.measurements.length == 0) {
             return [undefined, 'NO_MEASUREMENT']
         }
