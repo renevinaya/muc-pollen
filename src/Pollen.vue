@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { watch, onMounted, ref, Ref, useTemplateRef } from 'vue'
+import { watch, onMounted, ref, useTemplateRef } from 'vue'
 import { Chart } from 'chart.js'
 import { createChart } from './chart.ts'
 import { type language } from './translations.ts'
@@ -9,7 +9,7 @@ const props = defineProps<{
     language: language,
 }>()
 
-const status: Ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT'> = ref('LOADING')
+const status = ref<'LOADING' | 'POLLEN' | 'NO_POLLEN' | 'ERROR' | 'NO_MEASUREMENT'>('LOADING')
 const measurements = ref<Array<IPollenMeasurement>>([])
 const chartCanvas = useTemplateRef('chartCanvas')
 
