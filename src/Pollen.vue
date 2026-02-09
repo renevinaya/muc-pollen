@@ -50,7 +50,7 @@ watch([measurements, () => props.language], () => {
     </div>
     <div v-else-if="status === 'LOADING'" class="skeleton-block" />
     <div v-else-if="status === 'ERROR'" class="box">
-        <p>An error occured!</p>
+        <p>An error occurred!</p>
         <p class="has-text-right">
             <a class="button" @click="retryLoad">Try again</a>
         </p>
