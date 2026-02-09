@@ -37,11 +37,11 @@ export async function loadPollen(): Promise<success | failure> {
         const API_URL = 'https://d1ppjuhp1nvtc2.cloudfront.net/measurements?' + new URLSearchParams(PARAM).toString()
         
         const response = (await (await fetch(API_URL)).json()) as IPollenResponse;
-        if (response.measurements.length == 0) {
+        if (response.measurements.length === 0) {
             return [undefined, 'NO_MEASUREMENT']
         }
         const measurements = filterMeasurements(response.measurements);
-        if (measurements.length == 0) {
+        if (measurements.length === 0) {
             return [undefined, 'NO_POLLEN']
         }
         return [measurements, 'POLLEN']

@@ -18,7 +18,7 @@ let chart: Chart | null = null
 const retryLoad = async () => {
     status.value = 'LOADING'
     const [data, statusV] = await loadPollen()
-    if (statusV == 'POLLEN') {
+    if (statusV === 'POLLEN') {
         measurements.value = data
     }
     status.value = statusV
@@ -40,22 +40,22 @@ watch([measurements, () => props.language], () => {
 </script>
 
 <template>
-    <div v-if="status == 'POLLEN'" class="box">
+    <div v-if="status === 'POLLEN'" class="box">
         <div style="height: 500px">
             <canvas id="chartCanvas" ref="chartCanvas" />
         </div>
     </div>
-    <div v-else-if="status == 'NO_POLLEN'" class="box">
+    <div v-else-if="status === 'NO_POLLEN'" class="box">
         <p>Currently no pollen in Munich!</p>
     </div>
-    <div v-else-if="status == 'LOADING'" class="skeleton-block" />
-    <div v-else-if="status == 'ERROR'" class="box">
+    <div v-else-if="status === 'LOADING'" class="skeleton-block" />
+    <div v-else-if="status === 'ERROR'" class="box">
         <p>An error occured!</p>
         <p class="has-text-right">
             <a class="button" @click="retryLoad">Try again</a>
         </p>
     </div>
-    <div v-else-if="status == 'NO_MEASUREMENT'" class="box">
+    <div v-else-if="status === 'NO_MEASUREMENT'" class="box">
         <p>Pollen measurement currently not available</p>
     </div>
 </template>
