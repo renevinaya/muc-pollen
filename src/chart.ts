@@ -32,7 +32,12 @@ Chart.register(BarElement, CategoryScale, LinearScale, BarController, Tooltip, L
 const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
 
 function getTranslation(polle: string, language: language): string {
-    return language === 'la' ? polle : translations[polle][language]
+    if (language === 'la') {
+        return polle;
+    }
+    // Fallback to the Latin/scientific name if no translation is found
+    const translation = translations[polle];
+    return translation ? translation[language] : polle;
 }
 
 function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[], language: language): ChartDataset<'bar', number[]> {
