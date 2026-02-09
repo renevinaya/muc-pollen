@@ -41,10 +41,12 @@ function getTranslation(polle: string, language: language): string {
 }
 
 function toChartData(measurement: IPollenMeasurement, index: number, array: IPollenMeasurement[], language: language): ChartDataset<'bar', number[]> {
+    // Guard against division by zero when there's only one measurement
+    const colorValue = array.length === 1 ? 0 : index / (array.length - 1);
     return {
         label: getTranslation(measurement.polle, language),
         data: measurement.data.map(p => p.value),
-        backgroundColor: COLOR_SCALE(index / (array.length - 1))
+        backgroundColor: COLOR_SCALE(colorValue)
     }
 }
 
