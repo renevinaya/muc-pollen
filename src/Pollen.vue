@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onUpdated, onMounted, ref, Ref, useTemplateRef } from 'vue'
+import { watch, onMounted, ref, Ref, useTemplateRef } from 'vue'
 import { Chart } from 'chart.js'
 import { createChart } from './chart.ts'
 import { type language } from './translations.ts'
@@ -24,9 +24,9 @@ onMounted(async () => {
     status.value = statusV
 })
 
-onUpdated(() => {
+watch([measurements, () => props.language], () => {
     const chartContext = chartCanvas.value?.getContext('2d')
-    if (chartContext) {
+    if (chartContext && measurements.value.length > 0) {
         if(chart) {
             chart.destroy()
         }
