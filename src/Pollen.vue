@@ -29,9 +29,12 @@ onMounted(async () => {
 })
 
 watch([measurements, () => props.language, status], async () => {
+    if (status.value !== 'POLLEN' || measurements.value.length === 0) {
+        return
+    }
     await nextTick()
     const chartContext = chartCanvas.value?.getContext('2d')
-    if (chartContext && measurements.value.length > 0) {
+    if (chartContext) {
         if(chart) {
             chart.destroy()
         }
