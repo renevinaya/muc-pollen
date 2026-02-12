@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { watch, onMounted, ref, useTemplateRef } from 'vue'
+import { watch, onMounted, ref, useTemplateRef, nextTick } from 'vue'
 import { Chart } from 'chart.js'
 import { createChart } from './chart.ts'
 import { type language } from './translations.ts'
@@ -28,9 +28,13 @@ onMounted(async () => {
     await retryLoad()
 })
 
-watch([measurements, () => props.language], () => {
+watch([measurements, () => props.language, status], async () => {
+    if (status.value !== 'POLLEN' || measurements.value.length === 0) {
+        return
+    }
+    await nextTick()
     const chartContext = chartCanvas.value?.getContext('2d')
-    if (chartContext && measurements.value.length > 0) {
+    if (chartContext) {
         if(chart) {
             chart.destroy()
         }
