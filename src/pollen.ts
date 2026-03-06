@@ -17,7 +17,7 @@ export interface IPollenResponse {
 }
 
 const roundTime = (exact: number) => {
-    // Rounds time down to last 15 minutes, so Cloudfront can cache the result
+    // Rounds time down to last 15 minutes, which makes the request more reliable, since measurements are taken every 3h with a delay of 2h. So we want to make sure to only request measurements that are already available.
     const quarter_hour = 15 * 60
     return (Math.floor(exact / quarter_hour) * quarter_hour).toFixed()
 }
