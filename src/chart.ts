@@ -45,7 +45,7 @@ function toChartData(measurement: IPollenMeasurement, index: number, array: IPol
     const colorValue = array.length === 1 ? 0 : index / (array.length - 1);
     return {
         label: getTranslation(measurement.polle, language),
-        data: measurement.data.map(p => p.value),
+        data: measurement.data.map(p => Math.ceil(p.value)),
         backgroundColor: COLOR_SCALE(colorValue)
     }
 }
