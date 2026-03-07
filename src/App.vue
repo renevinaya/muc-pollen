@@ -33,10 +33,13 @@ const language: Ref<language> = ref(getBrowserLanguage());
   <footer class="hero is-link is-small">
     <div class="hero-body has-text-centered has-text-white">
       <p>Version V{{ version }}</p>
-      <p>Made by <a href="https://github.com/renevinaya" class="has-text-white">René Mueller</a> with data from <a
-          href="https://epin.lgl.bayern.de/" class="has-text-white">Landesamtes für Gesundheit und
-          Lebensmittelsicherheit
-          Bayern</a>.</p>
+      <p>Made by <a href="https://github.com/renevinaya" class="has-text-white">René Mueller</a> with data from
+        <a href="https://pollenscience.eu" class="has-text-white">PollenScience</a>,
+        <a href="https://epin.lgl.bayern.de/" class="has-text-white">LGL Bayern</a>,
+        <a href="https://open-meteo.com/" class="has-text-white">Open-Meteo</a>,
+        <a href="https://www.dwd.de/" class="has-text-white">DWD</a>, and
+        <a href="https://modis.ornl.gov/" class="has-text-white">NASA ORNL DAAC (MODIS)</a>.
+      </p>
       <p>Hosted by <a href="https://aws.amazon.com/" class="has-text-white">Amazon</a>. Check their <a
           href="https://d1.awsstatic.com/legal/aws-gdpr/AWS_GDPR_DPA.pdf" class="has-text-white">data privacy
           regulations</a>.</p>
