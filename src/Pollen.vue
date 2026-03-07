@@ -2,7 +2,7 @@
 import { watch, onMounted, ref, useTemplateRef, nextTick } from 'vue'
 import { Chart } from 'chart.js'
 import { createChart } from './chart.ts'
-import { type language } from './translations.ts'
+import { type language, ui } from './translations.ts'
 import { loadPollen, loadForecast, mergeMeasurements, type IPollenMeasurement } from './pollen.ts';
 
 const props = defineProps<{
@@ -63,16 +63,16 @@ watch([measurements, () => props.language, status], async () => {
         </div>
     </div>
     <div v-else-if="status === 'NO_POLLEN'" class="box">
-        <p>Currently no pollen in Munich!</p>
+        <p>{{ ui['noPollen'][language] }}</p>
     </div>
     <div v-else-if="status === 'LOADING'" class="skeleton-block" />
     <div v-else-if="status === 'ERROR'" class="box">
-        <p>An error occurred!</p>
+        <p>{{ ui['error'][language] }}</p>
         <p class="has-text-right">
-            <a class="button" @click="retryLoad">Try again</a>
+            <a class="button" @click="retryLoad">{{ ui['tryAgain'][language] }}</a>
         </p>
     </div>
     <div v-else-if="status === 'NO_MEASUREMENT'" class="box">
-        <p>Pollen measurement currently not available</p>
+        <p>{{ ui['noMeasurement'][language] }}</p>
     </div>
 </template>

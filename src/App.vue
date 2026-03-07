@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import Pollen from './Pollen.vue'
 import { version } from '../package.json'
-import { displayNames, getBrowserLanguage, type language } from './translations';
-import { ref, Ref } from 'vue';
+import { displayNames, getBrowserLanguage, ui, type language } from './translations';
+import { ref, Ref, computed } from 'vue';
 
 const language: Ref<language> = ref(getBrowserLanguage());
+const t = computed(() => {
+  const lang = language.value;
+  return (key: string) => ui[key][lang];
+});
 </script>
 
 <template>
@@ -13,7 +17,7 @@ const language: Ref<language> = ref(getBrowserLanguage());
       <div class="level">
         <div class="level-left">
           <h1 class="title">
-            Pollen in Munich
+            {{ t('title') }}
           </h1>
         </div>
         <div class="level-right">
@@ -33,16 +37,15 @@ const language: Ref<language> = ref(getBrowserLanguage());
   <footer class="hero is-link is-small">
     <div class="hero-body has-text-centered has-text-white">
       <p>Version V{{ version }}</p>
-      <p>Made by <a href="https://github.com/renevinaya" class="has-text-white">René Mueller</a> with data from
+      <p>{{ t('madeBy') }} <a href="https://github.com/renevinaya" class="has-text-white">René Mueller</a> {{ t('withDataFrom') }}
         <a href="https://pollenscience.eu" class="has-text-white">PollenScience</a>,
         <a href="https://epin.lgl.bayern.de/" class="has-text-white">LGL Bayern</a>,
         <a href="https://open-meteo.com/" class="has-text-white">Open-Meteo</a>,
-        <a href="https://www.dwd.de/" class="has-text-white">DWD</a>, and
+        <a href="https://www.dwd.de/" class="has-text-white">DWD</a>,
         <a href="https://modis.ornl.gov/" class="has-text-white">NASA ORNL DAAC (MODIS)</a>.
       </p>
-      <p>Hosted by <a href="https://aws.amazon.com/" class="has-text-white">Amazon</a>. Check their <a
-          href="https://d1.awsstatic.com/legal/aws-gdpr/AWS_GDPR_DPA.pdf" class="has-text-white">data privacy
-          regulations</a>.</p>
+      <p>{{ t('hostedBy') }} <a href="https://aws.amazon.com/" class="has-text-white">Amazon</a>, <a
+          href="https://d1.awsstatic.com/legal/aws-gdpr/AWS_GDPR_DPA.pdf" class="has-text-white">{{ t('privacyRegulations') }}</a>.</p>
     </div>
   </footer>
 </template>

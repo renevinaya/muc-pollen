@@ -223,3 +223,60 @@ export const translations: { [id: string]: ITranslationRaw } = {
         'ja': 'イラクサ属'
     }
 }
+
+export const ui: Record<string, ITranslation> = {
+    'title': {
+        'de': 'Pollen in München',
+        'en': 'Pollen in Munich',
+        'ja': 'ミュンヘンの花粉',
+        'la': 'Pollen Monacense'
+    },
+    'noPollen': {
+        'de': 'Derzeit kein Pollenflug in München!',
+        'en': 'Currently no pollen in Munich!',
+        'ja': '現在ミュンヘンでは花粉は飛んでいません！',
+        'la': 'Nunc nullum pollen Monaci!'
+    },
+    'error': {
+        'de': 'Ein Fehler ist aufgetreten!',
+        'en': 'An error occurred!',
+        'ja': 'エラーが発生しました！',
+        'la': 'Error accidit!'
+    },
+    'tryAgain': {
+        'de': 'Erneut versuchen',
+        'en': 'Try again',
+        'ja': '再試行',
+        'la': 'Iterum tempta'
+    },
+    'noMeasurement': {
+        'de': 'Pollenmessung derzeit nicht verfügbar',
+        'en': 'Pollen measurement currently not available',
+        'ja': '花粉測定は現在利用できません',
+        'la': 'Mensura pollinis nunc non praesto est'
+    },
+    'madeBy': {
+        'de': 'Erstellt von',
+        'en': 'Made by',
+        'ja': '作成者：',
+        'la': 'Fecit'
+    },
+    'withDataFrom': {
+        'de': 'mit Daten von',
+        'en': 'with data from',
+        'ja': '、データ提供：',
+        'la': 'cum datis ex'
+    },
+    'hostedBy': {
+        'de': 'Gehostet von',
+        'en': 'Hosted by',
+        'ja': 'ホスティング：',
+        'la': 'Hospitatur ab'
+    },
+    'privacyRegulations': {
+        'de': 'Datenschutzbestimmungen',
+        'en': 'data privacy regulations',
+        'ja': 'のデータプライバシー規約を確認してください',
+        'la': 'normas secreti datorum'
+    }
+}
