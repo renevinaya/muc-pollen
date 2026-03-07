@@ -2,9 +2,13 @@
 import Pollen from './Pollen.vue'
 import { version } from '../package.json'
 import { displayNames, getBrowserLanguage, ui, type language } from './translations';
-import { ref, Ref, computed } from 'vue';
+import { ref, Ref, computed, watch } from 'vue';
 
-const language: Ref<language> = ref(getBrowserLanguage());
+const LANG_KEY = 'language';
+const stored = localStorage.getItem(LANG_KEY);
+const initial: language = stored && stored in displayNames ? stored as language : getBrowserLanguage();
+const language: Ref<language> = ref(initial);
+watch(language, (lang) => localStorage.setItem(LANG_KEY, lang));
 const t = computed(() => {
   const lang = language.value;
   return (key: string) => ui[key][lang];
