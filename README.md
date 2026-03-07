@@ -4,7 +4,7 @@ A web app that displays current pollen levels and forecasts for Munich as an int
 
 ## Features
 
-- Live pollen measurements from the last 24 hours (3-hour resolution)
+- Live pollen measurements from the last 16 hours (3-hour resolution)
 - Pollen forecast for the next 12 hours (shown as striped bars)
 - Stacked bar chart with per-species breakdown
 - Language switcher (DE / EN / JA / LA)

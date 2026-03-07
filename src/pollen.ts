@@ -38,8 +38,8 @@ export async function loadPollen(): Promise<success | failure> {
     try {
         const NOW = (new Date().getTime() / 1000) // seconds
         const PARAM = {
-            // Pollen are measured every 3h. Plus 2h delay, we request 29h of the past to get a whole day
-            from: roundTime(NOW - (29 * 60 * 60)),
+            // Pollen are measured every 3h. Plus 2h delay, we request 21h of the past to get a whole day
+            from: roundTime(NOW - (21 * 60 * 60)),
             to: roundTime(NOW),
             locations: 'DEMUNC'
         }
