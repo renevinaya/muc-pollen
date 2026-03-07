@@ -23,10 +23,19 @@ const timeFormat = new Intl.DateTimeFormat(navigator.language, {
     minute: '2-digit'
 })
 
-const shortDateFormat = new Intl.DateTimeFormat(navigator.language, {
-    timeZone: 'Europe/Berlin',
-    weekday: 'short',
-})
+const localeMap: Record<language, string> = {
+    'de': 'de-DE',
+    'en': 'en-GB',
+    'ja': 'ja-JP',
+    'la': 'la',
+}
+
+function getShortDateFormat(lang: language) {
+    return new Intl.DateTimeFormat(localeMap[lang], {
+        timeZone: 'Europe/Berlin',
+        weekday: 'short',
+    })
+}
 
 function formatTime(unixtime: number) {
     return timeFormat.format(unixtime * 1000)
@@ -95,7 +104,7 @@ function toChartData(
     }
 }
 
-function toLabels(measurement: IPollenMeasurement): string[] {
+function toLabels(measurement: IPollenMeasurement, language: language): string[] {
     // Check if data spans multiple calendar days
     const days = new Set(
         measurement.data.map(d =>
@@ -103,11 +112,12 @@ function toLabels(measurement: IPollenMeasurement): string[] {
         )
     )
     const multiDay = days.size > 1
+    const dateFormat = getShortDateFormat(language)
 
     return measurement.data.map<string>((data) => {
         const time = formatTime(data.from) + " - " + formatTime(data.to)
         if (multiDay) {
-            return shortDateFormat.format(data.from * 1000) + '\n' + time
+            return dateFormat.format(data.from * 1000) + '\n' + time
         }
         return time
     })
@@ -118,7 +128,7 @@ export function createChart(chartContext: CanvasRenderingContext2D, measurements
     const chartConfig: ChartConfiguration<'bar', number[], string> = {
         type: 'bar',
         data: {
-            labels: toLabels(measurements[0]),
+            labels: toLabels(measurements[0], language),
             datasets: chartData,
         },
         options: {
