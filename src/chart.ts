@@ -10,10 +10,6 @@ import {
     Legend
 } from 'chart.js'
 
-import {
-    interpolateHslLong
-} from 'd3'
-
 import { type language, translations, ui } from './translations'
 import { type IPollenMeasurement } from './pollen'
 
@@ -43,7 +39,11 @@ function formatTime(unixtime: number) {
 
 Chart.register(BarElement, CategoryScale, LinearScale, BarController, Tooltip, Legend);
 
-const COLOR_SCALE = interpolateHslLong('#E74C3C', '#357DED')
+const PALETTE = [
+    '#E74C3C', '#40D47E', '#E8854A', '#3AA876',
+    '#C0392B', '#2ECC71', '#D46D2A', '#5DADE2',
+    '#B03A5B', '#1ABC9C',
+]
 
 function createStripePattern(ctx: CanvasRenderingContext2D, color: string): CanvasPattern {
     const size = 10
@@ -53,12 +53,12 @@ function createStripePattern(ctx: CanvasRenderingContext2D, color: string): Canv
     const pCtx = canvas.getContext('2d')!
     // Light background
     pCtx.fillStyle = color
-    pCtx.globalAlpha = 0.25
+    pCtx.globalAlpha = 0.55
     pCtx.fillRect(0, 0, size, size)
     // Diagonal stripes
-    pCtx.globalAlpha = 0.7
+    pCtx.globalAlpha = 1.0
     pCtx.strokeStyle = color
-    pCtx.lineWidth = 2.5
+    pCtx.lineWidth = 3
     pCtx.beginPath()
     pCtx.moveTo(-1, size + 1)
     pCtx.lineTo(size + 1, -1)
@@ -87,12 +87,9 @@ function toChartData(
     chartContext: CanvasRenderingContext2D,
     measurement: IPollenMeasurement,
     index: number,
-    array: IPollenMeasurement[],
     language: language
 ): ChartDataset<'bar', number[]> {
-    // Guard against division by zero when there's only one measurement
-    const colorValue = array.length === 1 ? 0 : index / (array.length - 1);
-    const solidColor = COLOR_SCALE(colorValue)
+    const solidColor = PALETTE[index % PALETTE.length]
     const pattern = createStripePattern(chartContext, solidColor)
 
     return {
@@ -124,7 +121,7 @@ function toLabels(measurement: IPollenMeasurement, language: language): string[]
 }
 
 export function createChart(chartContext: CanvasRenderingContext2D, measurements: IPollenMeasurement[], language: language) {
-    const chartData = measurements.map((m, i, a) => toChartData(chartContext, m, i, a, language))
+    const chartData = measurements.map((m, i) => toChartData(chartContext, m, i, language))
 
     const forecastLegend: ChartDataset<'bar', number[]> = {
         label: '▨ ' + ui['forecast'][language],
