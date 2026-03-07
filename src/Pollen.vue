@@ -3,7 +3,7 @@ import { watch, onMounted, ref, useTemplateRef, nextTick } from 'vue'
 import { Chart } from 'chart.js'
 import { createChart } from './chart.ts'
 import { type language } from './translations.ts'
-import { loadPollen, type IPollenMeasurement } from './pollen.ts';
+import { loadPollen, loadForecast, mergeMeasurements, type IPollenMeasurement } from './pollen.ts';
 
 const props = defineProps<{
     language: language,
@@ -17,11 +17,24 @@ let chart: Chart | null = null
 
 const retryLoad = async () => {
     status.value = 'LOADING'
-    const [data, statusV] = await loadPollen()
-    if (statusV === 'POLLEN') {
-        measurements.value = data
+
+    const [pollenResult, forecastData] = await Promise.all([
+        loadPollen(),
+        loadForecast(),
+    ])
+
+    const [pollenData, pollenStatus] = pollenResult
+
+    if (pollenStatus === 'POLLEN' && pollenData) {
+        measurements.value = mergeMeasurements(pollenData, forecastData)
+        status.value = 'POLLEN'
+    } else if (forecastData.length > 0) {
+        // No real measurements, but forecast is available
+        measurements.value = mergeMeasurements([], forecastData)
+        status.value = 'POLLEN'
+    } else {
+        status.value = pollenStatus
     }
-    status.value = statusV
 }
 
 onMounted(async () => {

@@ -1,7 +1,8 @@
 export interface IPollenData {
     from: number,
     to: number,
-    value: number
+    value: number,
+    isForecast?: boolean
 }
 
 export interface IPollenMeasurement {
@@ -15,6 +16,14 @@ export interface IPollenResponse {
     to: number,
     measurements: IPollenMeasurement[]
 }
+
+interface IForecastResponse {
+    generated: string,
+    location: string,
+    measurements: IPollenMeasurement[]
+}
+
+const FORECAST_URL = 'https://d1jw9x27ug54c1.cloudfront.net/forecast.json'
 
 const roundTime = (exact: number) => {
     // Rounds time down to last 15 minutes, which makes the request more reliable, since measurements are taken every 3h with a delay of 2h. So we want to make sure to only request measurements that are already available.
@@ -49,6 +58,79 @@ export async function loadPollen(): Promise<success | failure> {
         console.error(error);
         return [undefined, 'ERROR']
     }
+}
+
+export async function loadForecast(): Promise<IPollenMeasurement[]> {
+    try {
+        const response = await fetch(FORECAST_URL)
+        const data = (await response.json()) as IForecastResponse
+        const nowSeconds = Date.now() / 1000
+        const twelveHoursLater = nowSeconds + 12 * 60 * 60
+        return data.measurements
+            .map(m => ({
+                ...m,
+                data: m.data
+                    .filter(d => d.from < twelveHoursLater)
+                    .map(d => ({ ...d, isForecast: true }))
+            }))
+            .filter(m => m.data.length > 0)
+    } catch (error) {
+        console.error('Failed to load forecast:', error)
+        return []
+    }
+}
+
+/**
+ * Merge real measurements with forecast data.
+ * Real measurements prevail for overlapping time windows.
+ * All species get data for every time window (zero-filled where missing).
+ */
+export function mergeMeasurements(
+    measured: IPollenMeasurement[],
+    forecast: IPollenMeasurement[]
+): IPollenMeasurement[] {
+    // Collect all unique time windows from both sources
+    const allWindows = new Map<number, { from: number, to: number }>()
+    for (const m of [...measured, ...forecast]) {
+        for (const d of m.data) {
+            allWindows.set(d.from, { from: d.from, to: d.to })
+        }
+    }
+    const sortedWindows = Array.from(allWindows.values()).sort((a, b) => a.from - b.from)
+
+    // Build per-species window maps; real measurements overwrite forecast
+    const speciesMap = new Map<string, Map<number, IPollenData>>()
+
+    for (const fm of forecast) {
+        const windowMap = new Map<number, IPollenData>()
+        for (const d of fm.data) {
+            windowMap.set(d.from, { ...d, isForecast: true })
+        }
+        speciesMap.set(fm.polle, windowMap)
+    }
+
+    for (const rm of measured) {
+        if (!speciesMap.has(rm.polle)) {
+            speciesMap.set(rm.polle, new Map())
+        }
+        const windowMap = speciesMap.get(rm.polle)!
+        for (const d of rm.data) {
+            windowMap.set(d.from, { ...d, isForecast: false })
+        }
+    }
+
+    // Build result with all species having data for every window
+    const result: IPollenMeasurement[] = []
+    for (const [polle, windowMap] of speciesMap) {
+        const data: IPollenData[] = sortedWindows.map(w => {
+            const existing = windowMap.get(w.from)
+            return existing || { from: w.from, to: w.to, value: 0, isForecast: false }
+        })
+        if (data.some(d => d.value > 0)) {
+            result.push({ polle, location: 'DEMUNC', data })
+        }
+    }
+    return result
 }
 
 export function filterMeasurements(measurements: IPollenMeasurement[]): IPollenMeasurement[] {
