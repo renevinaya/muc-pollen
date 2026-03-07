@@ -138,7 +138,21 @@ export function createChart(chartContext: CanvasRenderingContext2D, measurements
                     stacked: true,
                 },
                 y: {
-                    stacked: true
+                    stacked: true,
+                    ticks: {
+                        callback: (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.dataset.label || '';
+                            const value = String(context.parsed.y).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                            return label + ': ' + value;
+                        }
+                    }
                 }
             },
             maintainAspectRatio: false,
