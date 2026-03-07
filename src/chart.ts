@@ -14,7 +14,7 @@ import {
     interpolateHslLong
 } from 'd3'
 
-import { type language, translations } from './translations'
+import { type language, translations, ui } from './translations'
 import { type IPollenMeasurement } from './pollen'
 
 const timeFormat = new Intl.DateTimeFormat(navigator.language, {
@@ -125,11 +125,18 @@ function toLabels(measurement: IPollenMeasurement, language: language): string[]
 
 export function createChart(chartContext: CanvasRenderingContext2D, measurements: IPollenMeasurement[], language: language) {
     const chartData = measurements.map((m, i, a) => toChartData(chartContext, m, i, a, language))
+
+    const forecastLegend: ChartDataset<'bar', number[]> = {
+        label: '▨ ' + ui['forecast'][language],
+        data: [],
+        backgroundColor: 'transparent',
+    }
+
     const chartConfig: ChartConfiguration<'bar', number[], string> = {
         type: 'bar',
         data: {
             labels: toLabels(measurements[0], language),
-            datasets: chartData,
+            datasets: [...chartData, forecastLegend],
         },
         options: {
             responsive: true,

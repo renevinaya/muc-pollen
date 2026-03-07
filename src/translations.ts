@@ -278,5 +278,11 @@ export const ui: Record<string, ITranslation> = {
         'en': 'data privacy regulations',
         'ja': 'のデータプライバシー規約を確認してください',
         'la': 'normas secreti datorum'
+    },
+    'forecast': {
+        'de': 'Vorhersage',
+        'en': 'Forecast',
+        'ja': '予報',
+        'la': 'Praedictio'
     }
 }
