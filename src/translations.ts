@@ -33,8 +33,8 @@ export const translations: { [id: string]: ITranslationRaw } = {
         'ja': 'カエデ'
     },
     'Aesculus': {
-        'de': 'Kastanie',
-        'en': 'Chestnut',
+        'de': 'Rosskastanie',
+        'en': 'Horse Chestnut',
         'ja': 'トチノキ'
     },
     'Alnus': {
@@ -48,9 +48,9 @@ export const translations: { [id: string]: ITranslationRaw } = {
         'ja': 'ブタクサ'
     },
     'Artemisia': {
-        'de': 'Eberraute',
-        'en': 'Southernwood',
-        'ja': 'オキナヨモギ'
+        'de': 'Beifuß',
+        'en': 'Mugwort',
+        'ja': 'ヨモギ'
     },
     'Asteraceae': {
         'de': 'Korbblütler',
@@ -108,9 +108,9 @@ export const translations: { [id: string]: ITranslationRaw } = {
         'ja': 'トネリコ属'
     },
     'Fungus': {
-        'de': 'Pilze',
-        'en': 'Fungi',
-        'ja': 'キノコ'
+        'de': 'Schimmel',
+        'en': 'Mold',
+        'ja': 'カビ'
     },
     'Galium': {
         'de': 'Labkräuter',
@@ -209,7 +209,7 @@ export const translations: { [id: string]: ITranslationRaw } = {
     },
     'Tilia': {
         'de': 'Linden',
-        'en': 'Lime',
+        'en': 'Linden',
         'ja': 'シナノキ属'
     },
     'Ulmus': {
