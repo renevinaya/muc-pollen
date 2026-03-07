@@ -2,4 +2,4 @@ customHeaders:
   - pattern: '**'
     headers:
     - key: 'content-security-policy'
-      value: "default-src 'self' https://d1ppjuhp1nvtc2.cloudfront.net/"
+      value: "default-src 'self' https://d1ppjuhp1nvtc2.cloudfront.net/ https://d1jw9x27ug54c1.cloudfront.net/"
