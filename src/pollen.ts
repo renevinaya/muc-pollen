@@ -65,12 +65,13 @@ export async function loadForecast(): Promise<IPollenMeasurement[]> {
         const response = await fetch(FORECAST_URL)
         const data = (await response.json()) as IForecastResponse
         const nowSeconds = Date.now() / 1000
+        const twelveHoursAgo = nowSeconds - 12 * 60 * 60
         const twelveHoursLater = nowSeconds + 12 * 60 * 60
         return data.measurements
             .map(m => ({
                 ...m,
                 data: m.data
-                    .filter(d => d.from < twelveHoursLater)
+                    .filter(d => d.from >= twelveHoursAgo && d.from < twelveHoursLater)
                     .map(d => ({ ...d, isForecast: true }))
             }))
             .filter(m => m.data.length > 0)
