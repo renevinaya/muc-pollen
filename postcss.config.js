@@ -1,5 +1,5 @@
 import prunevariables from 'postcss-prune-var'
-import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss'
+import purgeCSSPlugin from '@fullhuman/postcss-purgecss'
 
 export default {
   plugins: [
