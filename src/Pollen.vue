@@ -29,10 +29,14 @@ const retryLoad = async () => {
         measurements.value = mergeMeasurements(pollenData, forecastData)
         status.value = 'POLLEN'
     } else if (forecastData.length > 0) {
-        // No real measurements, but forecast is available
-        measurements.value = mergeMeasurements([], forecastData)
-        status.value = 'POLLEN'
+        // LGL measurements unavailable, but forecast is: show forecast only.
+        const merged = mergeMeasurements([], forecastData)
+        measurements.value = merged
+        // Forecast may predict zero pollen across the window -> show the
+        // friendly "no pollen" message instead of an empty/blank chart.
+        status.value = merged.length > 0 ? 'POLLEN' : 'NO_POLLEN'
     } else {
+        // Neither measurements nor forecast available: genuine error state.
         status.value = pollenStatus
     }
 }
